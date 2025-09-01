@@ -1,0 +1,13 @@
+#mastobot-settings {
+    padding: 10px;
+}
+
+#mastobot-settings input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#mastobot-settings button {
+    padding: 6px 12px;
+}

@@ -1,0 +1,10 @@
+{
+  "name": "sillytavern-mastodon-bot",
+  "version": "0.1.0",
+  "description": "Mastodon bot plugin for SillyTavern using ChatBridge.",
+  "main": "index.js",
+  "author": "YourName",
+  "dependencies": {
+    "megalodon": "^3.9.1"
+  }
+}
