@@ -10,26 +10,39 @@ let stream = null;
 let pluginAPI = null;
 let client = null;
 
-const CONFIG_PATH = path.join(__dirname, 'config.json');
+let pluginPath = '';
 
 module.exports = {
     name: 'sillytavern-mastodon-bot',
     init(app, _pluginAPI) {
         pluginAPI = _pluginAPI;
-        const config = JSON.parse(fs.readFileSync(CONFIG_PATH));
+        pluginPath = path.join(pluginAPI.pluginsPath, 'sillytavern-mastodon-bot');
 
-        // Serve Web UI
-        app.use('/plugins/sillytavern-mastodon-bot/webui', express.static(path.join(__dirname, 'webui')));
+        const configPath = path.join(pluginPath, 'config.json');
+        const config = JSON.parse(fs.readFileSync(configPath));
+
+        // Serve Web UI files
+        app.use('/plugins/sillytavern-mastodon-bot/webui', express.static(path.join(pluginPath, 'webui')));
 
         app.get('/plugins/sillytavern-mastodon-bot/config', (req, res) => {
-            const config = JSON.parse(fs.readFileSync(CONFIG_PATH));
+            const config = JSON.parse(fs.readFileSync(configPath));
             res.json(config);
         });
 
         app.post('/plugins/sillytavern-mastodon-bot/config', express.json(), (req, res) => {
-            fs.writeFileSync(CONFIG_PATH, JSON.stringify(req.body, null, 2));
+            fs.writeFileSync(configPath, JSON.stringify(req.body, null, 2));
             res.json({ success: true });
             restartStream();
+        });
+
+        // Register UI tab
+        pluginAPI.addSettingTab({
+            id: 'mastodon-bot-settings',
+            name: 'Mastodon Bot',
+            icon: 'fab fa-mastodon',
+            html: fs.readFileSync(path.join(pluginPath, 'webui', 'webui.html'), 'utf8'),
+            scripts: [path.join(pluginPath, 'webui', 'webui.js')],
+            stylesheets: [path.join(pluginPath, 'webui', 'webui.css')]
         });
 
         startStream();
@@ -40,11 +53,12 @@ function startStream() {
     if (stream) stream.stop();
     client = createClient();
 
+    const config = JSON.parse(fs.readFileSync(path.join(pluginPath, 'config.json')));
+    const botHandle = config.bot_handle.replace(/^@/, '');
+
     stream = client.streamUser();
 
     stream.on('update', async status => {
-        const config = JSON.parse(fs.readFileSync(CONFIG_PATH));
-        const botHandle = config.bot_handle.replace(/^@/, '');
         const account = status.data.account.acct;
 
         if (!status.data.mentions.some(m => m.acct === botHandle)) return;

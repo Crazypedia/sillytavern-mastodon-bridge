@@ -1,0 +1,11 @@
+{
+  "name": "Mastodon Bot",
+  "version": "0.1.0",
+  "description": "Server plugin that connects SillyTavern to Mastodon via a bot.",
+  "author": "YourName",
+  "pluginType": "server",
+  "tags": ["bot", "mastodon", "chatbridge", "plugin"],
+  "settings": {
+    "hasUI": true
+  }
+}
