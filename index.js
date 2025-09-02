@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 
-const createClient = require('./mastodon-client');
+const createClient = require('./megalodon-client');
 const { loadProfile, saveProfile } = require('./memory-store');
 const { stripHtmlTags } = require('./utils');
 
@@ -13,23 +13,23 @@ let client = null;
 let pluginPath = '';
 
 module.exports = {
-    name: 'sillytavern-mastodon-bot',
+    name: 'mastodon-bridge',
     init(app, _pluginAPI) {
         pluginAPI = _pluginAPI;
-        pluginPath = path.join(pluginAPI.pluginsPath, 'sillytavern-mastodon-bot');
+        pluginPath = __dirname;
 
         const configPath = path.join(pluginPath, 'config.json');
         const config = JSON.parse(fs.readFileSync(configPath));
 
         // Serve Web UI files
-        app.use('/plugins/sillytavern-mastodon-bot/webui', express.static(path.join(pluginPath, 'webui')));
+        app.use('/plugins/mastodon-bridge/webui', express.static(path.join(pluginPath, 'webui')));
 
-        app.get('/plugins/sillytavern-mastodon-bot/config', (req, res) => {
+        app.get('/plugins/mastodon-bridge/config', (req, res) => {
             const config = JSON.parse(fs.readFileSync(configPath));
             res.json(config);
         });
 
-        app.post('/plugins/sillytavern-mastodon-bot/config', express.json(), (req, res) => {
+        app.post('/plugins/mastodon-bridge/config', express.json(), (req, res) => {
             fs.writeFileSync(configPath, JSON.stringify(req.body, null, 2));
             res.json({ success: true });
             restartStream();
@@ -37,8 +37,8 @@ module.exports = {
 
         // Register UI tab
         pluginAPI.addSettingTab({
-            id: 'mastodon-bot-settings',
-            name: 'Mastodon Bot',
+            id: 'mastodon-bridge-settings',
+            name: 'Mastodon Bridge',
             icon: 'fab fa-mastodon',
             html: fs.readFileSync(path.join(pluginPath, 'webui', 'webui.html'), 'utf8'),
             scripts: [path.join(pluginPath, 'webui', 'webui.js')],

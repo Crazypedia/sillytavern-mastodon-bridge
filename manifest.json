@@ -1,10 +1,11 @@
 {
-  "name": "Mastodon Bot",
+  "name": "Mastodon Bridge",
   "version": "0.1.0",
-  "description": "Server plugin that connects SillyTavern to Mastodon via a bot.",
-  "author": "YourName",
+  "description": "Bridge SillyTavern chats to Mastodon and other Fediverse servers.",
+  "author": "SillyTavern Plugin Contributors",
   "pluginType": "server",
-  "tags": ["bot", "mastodon", "chatbridge", "plugin"],
+  "homepage": "https://github.com/SillyTavern/sillytavern-mastodon-bridge",
+  "tags": ["mastodon", "fediverse", "bridge"],
   "settings": {
     "hasUI": true
   }

@@ -1,7 +1,19 @@
-<div id="mastobot-settings">
-    <h2>Mastodon Bot Settings</h2>
+<div id="mastodon-bridge-settings">
+    <h2>Mastodon Bridge Settings</h2>
     <label>Instance URL:</label>
-    <input id="mastodon-url" type="text" placeholder="https://mastodon.social"><br>
+    <input id="instance-url" type="text" placeholder="https://mastodon.social"><br>
+
+    <label>Service Type:</label>
+    <select id="service-type">
+        <option value="mastodon">Mastodon</option>
+        <option value="pleroma">Pleroma</option>
+        <option value="gotosocial">GoToSocial</option>
+        <option value="friendica">Friendica</option>
+        <option value="firefish">Firefish</option>
+        <option value="misskey">Misskey</option>
+        <option value="calckey">Calckey</option>
+        <option value="iceshrimp">IceShrimp</option>
+    </select><br>
 
     <label>Access Token:</label>
     <input id="access-token" type="password" placeholder="Paste your token"><br>
