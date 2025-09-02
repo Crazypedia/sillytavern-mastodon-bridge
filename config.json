@@ -1,5 +1,6 @@
 {
-  "mastodon_url": "https://mastodon.social",
+  "instance_url": "https://mastodon.social",
+  "service": "mastodon",
   "access_token": "",
   "bot_handle": "@YourBotHandle",
   "character_file": ""

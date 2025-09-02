@@ -1,5 +1,5 @@
 {
-  "id": "mastodon-bot",
+  "id": "mastodon-bridge",
   "type": "server",
   "entry": "index.js"
 }
